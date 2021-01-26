@@ -3,10 +3,10 @@
 #include "./includes/snake.hpp"
 
 snake::snake(){
-    std::pair<int,int> pos1{5,5};
-    std::pair<int,int> pos2{5,5};
-    std::pair<int,int> pos3{5,5};
-    std::pair<int,int> pos4{5,5};
+    std::pair<int,int> pos1{5,6};
+    std::pair<int,int> pos2{5,6};
+    std::pair<int,int> pos3{5,6};
+    std::pair<int,int> pos4{5,6};
     last_action_id=MOVE_RIGHT;
     body.push_back(std::move(pos1));
     body.push_back(std::move(pos2));
