@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 #include <ncurses.h>
 
-#ifndef food
+#ifndef FOOD_DEF 
+#define FOOD_DEF 1
 
 class food{
 public:

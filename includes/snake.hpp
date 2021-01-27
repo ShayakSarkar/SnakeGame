@@ -1,6 +1,8 @@
 #include <ncurses.h>
 #include <bits/stdc++.h>
 
+#ifndef SNAKE_DEF 
+#define SNAKE_DEF 1
 class snake{
 public:
     std::vector<std::pair<int,int>> body;
@@ -22,3 +24,4 @@ public:
     void grow();
     int can_move(int movement);
 };
+#endif
