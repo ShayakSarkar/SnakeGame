@@ -6,23 +6,41 @@
 void setup_win(WINDOW *win,int r,int c){
     for(int i=0;i<r+1;i++){
         wmove(win,c,i);
-        waddstr(win,"#");
+        waddstr(win,"|");
         wmove(win,0,i);
-        waddstr(win,"#");
+        waddstr(win,"|");
     }
     for(int i=0;i<c+1;i++){
         wmove(win,i,0);
-        waddstr(win,"#");
+        waddstr(win,"=");
         wmove(win,i,r);
-        waddstr(win,"#");
+        waddstr(win,"=");
     }
     wrefresh(win);
 }
 
 void render_thread_action(snake& snk,food& fd,WINDOW* win,std::queue<int>& key_buffer,int& should_terminate){
+    int score=0;
+    int sleep_updated=false;
+    int sleep_time=250;  //indicative of the level;
     while(true){
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+        if(score%10==0 && !sleep_updated){
+            sleep_time-=50;
+            sleep_updated=true;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));
         wclear(win);
+        setup_win(win,30,20);
+        wmove(win,10,40);
+        wrefresh(win);
+        waddstr(win,"Score\n");
+        wmove(win,11,40);
+        waddstr(win,std::to_string(score).c_str());
+        wmove(win,13,40);
+        std::string level_string="Level: ";
+        level_string+=std::to_string((score/10)+1);
+        waddstr(win,level_string.c_str());
+        wrefresh(win);
         if(key_buffer.size()==0){
             snk.last_action();
             if(snk.is_dead()){
@@ -32,8 +50,9 @@ void render_thread_action(snake& snk,food& fd,WINDOW* win,std::queue<int>& key_b
             if(snk.body[0].first==fd.r && snk.body[0].second==fd.c){
                 fd.respawn(snk.body);
                 snk.grow();
+                score++;
+                sleep_updated=false;
             }
-            setup_win(win,30,20);
             snk.render(win);
             fd.render(win);
         }
@@ -58,8 +77,9 @@ void render_thread_action(snake& snk,food& fd,WINDOW* win,std::queue<int>& key_b
                     }
                     fd.respawn(points);
                     snk.grow();
+                    score++;
+                    sleep_updated=false;
                 }
-                setup_win(win,30,20);
                 snk.render(win);
                 fd.render(win);
             }
@@ -81,8 +101,9 @@ void render_thread_action(snake& snk,food& fd,WINDOW* win,std::queue<int>& key_b
                     }
                     fd.respawn(points);
                     snk.grow();
+                    score++;
+                    sleep_updated=false;
                 }
-                setup_win(win,30,20);
                 snk.render(win);
                 fd.render(win);
             } 
@@ -104,8 +125,9 @@ void render_thread_action(snake& snk,food& fd,WINDOW* win,std::queue<int>& key_b
                     }
                     fd.respawn(points);
                     snk.grow();
+                    score++;
+                    sleep_updated=false;
                 }
-                setup_win(win,30,20);
                 snk.render(win);
                 fd.render(win);
             }
@@ -127,8 +149,9 @@ void render_thread_action(snake& snk,food& fd,WINDOW* win,std::queue<int>& key_b
                     }
                     fd.respawn(points);
                     snk.grow();
+                    score++;
+                    sleep_updated=false;
                 }
-                setup_win(win,30,20);
                 snk.render(win);
                 fd.render(win);
             }

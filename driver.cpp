@@ -26,4 +26,7 @@ int main(){
 
     std::cout<<"driver.cpp(main):press any key to terminate..."<<std::endl;
     curs_set(1);
+    wclear(win);
+    wrefresh(win);
+    delwin(win);
 }
