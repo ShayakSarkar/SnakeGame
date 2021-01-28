@@ -4,11 +4,12 @@
 #include "./includes/food.hpp"
 #include "./includes/input_thread.hpp"
 #include "./includes/render_thread.hpp"
+#include "./includes/array_queue.hpp"
 
 int main(){
     const int ROWS=43;
     const int COLS=166;
-    std::queue<int> key_buffer;
+    array_queue key_buffer;
     initscr();
     curs_set(0);
     cbreak();

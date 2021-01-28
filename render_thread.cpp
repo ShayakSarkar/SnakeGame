@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include "./includes/snake.hpp"
 #include "./includes/food.hpp"
+#include "./includes/array_queue.hpp"
 #include <ncurses.h>
 
 void setup_win(WINDOW *win,int r,int c){
@@ -19,7 +20,7 @@ void setup_win(WINDOW *win,int r,int c){
     wrefresh(win);
 }
 
-void render_thread_action(snake& snk,food& fd,WINDOW* win,std::queue<int>& key_buffer,int& should_terminate){
+void render_thread_action(snake& snk,food& fd,WINDOW* win,array_queue& key_buffer,int& should_terminate){
     int score=0;
     int sleep_updated=false;
     int sleep_time=250;  //indicative of the level;
@@ -41,7 +42,7 @@ void render_thread_action(snake& snk,food& fd,WINDOW* win,std::queue<int>& key_b
         level_string+=std::to_string((score/10)+1);
         waddstr(win,level_string.c_str());
         wrefresh(win);
-        if(key_buffer.size()==0){
+        if(key_buffer.filled==0){
             snk.last_action();
             if(snk.is_dead()){
                 should_terminate=true;
@@ -57,8 +58,7 @@ void render_thread_action(snake& snk,food& fd,WINDOW* win,std::queue<int>& key_b
             fd.render(win);
         }
         else{
-            int key=key_buffer.front();
-            key_buffer.pop();
+            int key=key_buffer.dequeue();
             if(key=='w' || key=='W'){
                 if(snk.can_move(snk.MOVE_UP)){
                     snk.move_up();
